@@ -2778,39 +2778,820 @@ html {
     }
 }
 
-/* FIX: Stable hero portrait animation */
-.hero .portrait-frame {
-    opacity: 1;
-    animation: portraitEntranceFixed 1.2s cubic-bezier(.22, 1, .36, 1) .2s both;
-    will-change: transform, opacity;
+/* ======================================================================
+   RESPONSIVE LAYOUT SYSTEM — appended overrides
+   Keeps the original black / red / coral visual theme and components.
+   Breakpoints: wide desktop, laptop, tablet, mobile and small mobile.
+====================================================================== */
+
+:root {
+    --page-gutter: clamp(18px, 4.2vw, 64px);
+    --content-width: 1600px;
 }
 
-.hero .portrait-frame img {
-    opacity: 1;
-    animation: portraitFloatFixed 7s ease-in-out 1.4s infinite;
-    will-change: transform;
+html {
+    width: 100%;
+    overflow-x: clip;
+    scroll-padding-top: 84px;
 }
 
-@keyframes portraitEntranceFixed {
-    from {
-        opacity: 0;
-        transform: translate3d(30px, 0, 0) scale(.98);
+body {
+    width: 100%;
+    min-width: 320px;
+    overflow-x: clip;
+}
+
+img,
+video,
+svg,
+canvas {
+    max-width: 100%;
+}
+
+.section-wrap,
+.site-header,
+.toolkit-section,
+.projects-section,
+.about-toolkit {
+    width: min(calc(100% - (var(--page-gutter) * 2)), var(--content-width));
+    max-width: var(--content-width);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Header: keep all items inside the viewport. */
+.site-header {
+    min-height: 72px;
+    height: auto;
+    padding: 14px 0;
+    gap: 22px;
+}
+
+.brand,
+.header-button,
+.menu-toggle {
+    flex-shrink: 0;
+}
+
+.navigation {
+    min-width: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: clamp(16px, 2.5vw, 35px);
+}
+
+/* Hero: DOM order is copy then visual; grid areas intentionally place
+   the portrait on the left and the copy on the right on desktop. */
+.hero {
+    width: min(calc(100% - (var(--page-gutter) * 2)), var(--content-width));
+    min-height: clamp(620px, 48vw, 790px);
+    height: auto;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas: "visual copy";
+    align-items: center;
+    gap: clamp(28px, 4vw, 72px);
+    padding-top: clamp(48px, 6vw, 88px);
+    padding-bottom: clamp(76px, 8vw, 110px);
+    overflow: hidden;
+}
+
+.hero-copy {
+    grid-area: copy;
+    min-width: 0;
+    width: 100%;
+    max-width: 720px;
+    justify-self: end;
+}
+
+.hero-visual {
+    grid-area: visual;
+    min-width: 0;
+    width: 100%;
+    height: clamp(360px, 38vw, 570px);
+    justify-self: stretch;
+}
+
+.hero h1 {
+    max-width: 100%;
+    font-size: clamp(46px, 6.2vw, 96px);
+    line-height: .99;
+    letter-spacing: clamp(-6px, -.48vw, -2px);
+    overflow-wrap: normal;
+    word-break: normal;
+}
+
+.hero-description {
+    width: 100%;
+    max-width: 620px;
+    font-size: clamp(13px, .95vw, 15px);
+    line-height: 1.85;
+}
+
+.hero-actions,
+.social-links,
+.hero-footnote {
+    flex-wrap: wrap;
+}
+
+.hero-footnote {
+    row-gap: 10px;
+}
+
+.portrait-frame {
+    width: min(100%, 620px);
+    height: 100%;
+    min-height: 0;
+}
+
+.portrait-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center bottom;
+}
+
+.hero-watermark {
+    position: absolute;
+    z-index: 0;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    max-width: 100%;
+    pointer-events: none;
+}
+
+.hero-copy,
+.hero-visual {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-scroll-indicator {
+    right: 0;
+    bottom: 24px;
+    max-width: 48%;
+}
+
+.section-index {
+    right: 0;
+    bottom: 18px;
+}
+
+/* Shared section sizing and safe grid behavior. */
+.focus-section,
+.work-section,
+.projects-section,
+.toolkit-section {
+    min-width: 0;
+    padding-top: clamp(58px, 7vw, 110px);
+    padding-bottom: clamp(58px, 7vw, 110px);
+}
+
+.focus-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.project-grid,
+.projects-grid,
+.toolkit-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.focus-card,
+.project-card,
+.toolkit-card,
+.project-info,
+.about-block,
+.stats-block,
+.toolkit-block,
+.contact-copy,
+.contact-details {
+    min-width: 0;
+}
+
+.project-info p,
+.focus-card p,
+.about-block p,
+.contact-copy p {
+    overflow-wrap: anywhere;
+}
+
+.about-toolkit {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(24px, 4vw, 56px);
+    padding-top: clamp(58px, 7vw, 100px);
+    padding-bottom: clamp(58px, 7vw, 100px);
+}
+
+.about-block {
+    grid-column: 1;
+}
+
+.stats-block {
+    grid-column: 1;
+    grid-row: 2;
+    border-left: 0;
+    border-right: 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+
+.toolkit-block {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+}
+
+.contact-section {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(24px, 4vw, 60px);
+}
+
+.footer,
+.footer-top,
+.footer-bottom {
+    min-width: 0;
+    flex-wrap: wrap;
+}
+
+/* Large laptop / compact desktop */
+@media (max-width: 1200px) {
+    :root {
+        --page-gutter: 32px;
     }
 
-    to {
-        opacity: 1;
-        transform: translate3d(0, 0, 0) scale(1);
+    .hero {
+        min-height: 620px;
+        gap: 28px;
+    }
+
+    .hero h1 {
+        font-size: clamp(48px, 6vw, 76px);
+        letter-spacing: -3.8px;
+    }
+
+    .hero-visual {
+        height: clamp(340px, 40vw, 470px);
+    }
+
+    .side-note {
+        display: none;
+    }
+
+    .focus-grid {
+        gap: 16px;
+    }
+
+    .focus-card {
+        padding: 21px;
+    }
+
+    .about-toolkit {
+        gap: 28px;
     }
 }
 
-@keyframes portraitFloatFixed {
-
-    0%,
-    100% {
-        transform: translateY(0);
+/* Tablet landscape / small laptop */
+@media (max-width: 900px) {
+    :root {
+        --page-gutter: 26px;
     }
 
-    50% {
-        transform: translateY(-6px);
+    .site-header {
+        gap: 14px;
+    }
+
+    .navigation {
+        gap: 17px;
+    }
+
+    .navigation a {
+        font-size: 11px;
+    }
+
+    .hero {
+        min-height: auto;
+        grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+        gap: 22px;
+        padding-top: 70px;
+        padding-bottom: 88px;
+    }
+
+    .hero h1 {
+        font-size: clamp(42px, 5.6vw, 62px);
+        letter-spacing: -3px;
+        margin-top: 20px;
+    }
+
+    .hero-description {
+        font-size: 13px;
+    }
+
+    .hero-visual {
+        height: 390px;
+    }
+
+    .portrait-stamp {
+        right: 2%;
+        font-size: 7px;
+    }
+
+    .photo-label {
+        left: 2%;
+    }
+
+    .focus-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .focus-card:last-child {
+        grid-column: 1 / -1;
+    }
+
+    .about-toolkit {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .toolkit-section .section-heading h2,
+    .projects-section .section-heading h2 {
+        letter-spacing: -1.8px;
+    }
+}
+
+/* Tablet portrait and large phones */
+@media (max-width: 700px) {
+    :root {
+        --page-gutter: 22px;
+    }
+
+    .site-header {
+        min-height: 66px;
+        padding: 12px 0;
+    }
+
+    .brand {
+        font-size: 17px;
+    }
+
+    .menu-toggle {
+        display: block;
+        order: 3;
+    }
+
+    .navigation {
+        display: none;
+        position: absolute;
+        top: calc(100% + 1px);
+        left: 0;
+        right: 0;
+        z-index: 30;
+        padding: 20px;
+        background: #111114;
+        border: 1px solid var(--line);
+        border-radius: 0 0 12px 12px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 17px;
+    }
+
+    .navigation.open {
+        display: flex;
+    }
+
+    .navigation a {
+        font-size: 13px;
+    }
+
+    .header-button {
+        margin-left: auto;
+        padding: 11px 13px;
+        font-size: 9px;
+    }
+
+    .hero {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas: "copy" "visual";
+        min-height: 0;
+        gap: 28px;
+        padding-top: 54px;
+        padding-bottom: 82px;
+    }
+
+    .hero-copy {
+        grid-area: copy;
+        max-width: 100%;
+        justify-self: stretch;
+    }
+
+    .hero h1 {
+        max-width: 100%;
+        font-size: clamp(42px, 10vw, 66px);
+        line-height: 1.02;
+        letter-spacing: -2.8px;
+        margin: 20px 0 18px;
+    }
+
+    .hero-description {
+        max-width: 100%;
+        font-size: 13px;
+        line-height: 1.8;
+    }
+
+    .hero-actions {
+        gap: 11px;
+        margin-top: 23px;
+    }
+
+    .button {
+        padding: 13px 15px;
+        font-size: 9px;
+    }
+
+    .social-links {
+        gap: 18px;
+        margin-top: 20px;
+    }
+
+    .hero-footnote {
+        gap: 10px 18px;
+        margin-top: 28px;
+        font-size: 7px;
+    }
+
+    .hero-visual {
+        grid-area: visual;
+        height: clamp(280px, 75vw, 430px);
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .portrait-frame {
+        width: min(100%, 500px);
+        height: 100%;
+        margin: 0 auto;
+    }
+
+    .portrait-frame img {
+        object-fit: contain;
+        object-position: center bottom;
+    }
+
+    .photo-label {
+        top: 0;
+        left: 0;
+    }
+
+    .portrait-stamp {
+        right: 0;
+        bottom: 0;
+    }
+
+    .side-note {
+        display: none;
+    }
+
+    .hero-watermark {
+        top: 38%;
+        font-size: clamp(42px, 13vw, 90px);
+    }
+
+    .hero-scroll-indicator {
+        right: 0;
+        bottom: 22px;
+        font-size: 8px;
+    }
+
+    .section-index {
+        display: none;
+    }
+
+    .section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 25px;
+    }
+
+    .section-heading h2,
+    .about-block h2,
+    .toolkit-block h2,
+    .contact-copy h2 {
+        font-size: clamp(30px, 7vw, 42px);
+        letter-spacing: -1.5px;
+    }
+
+    .section-lead,
+    .heading-aside {
+        max-width: 100%;
+    }
+
+    .focus-grid,
+    .project-grid,
+    .projects-grid,
+    .toolkit-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+    }
+
+    .focus-card:last-child {
+        grid-column: auto;
+    }
+
+    .focus-card {
+        min-height: 190px;
+        padding: 21px;
+    }
+
+    .project-art {
+        height: 180px;
+    }
+
+    .projects-grid .project-card {
+        min-height: 0;
+        padding: 20px;
+    }
+
+    .project-info {
+        padding: 18px 0 0;
+    }
+
+    .project-info h3 {
+        font-size: 18px;
+    }
+
+    .about-toolkit {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 28px;
+        padding-top: 55px;
+        padding-bottom: 55px;
+    }
+
+    .about-block,
+    .stats-block,
+    .toolkit-block {
+        grid-column: 1;
+        grid-row: auto;
+    }
+
+    .stats-block {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        padding: 20px 0;
+    }
+
+    .stat strong {
+        font-size: 22px;
+    }
+
+    .toolkit-section {
+        width: min(calc(100% - 44px), var(--content-width)) !important;
+    }
+
+    .toolkit-section .section-heading {
+        margin-bottom: 25px;
+    }
+
+    .toolkit-card {
+        min-height: 160px;
+        padding: 23px;
+    }
+
+    .contact-section {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 25px;
+        padding-top: 55px;
+        padding-bottom: 55px;
+    }
+
+    .contact-details {
+        gap: 14px;
+    }
+
+    .footer {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 14px;
+        padding: 22px 0;
+    }
+}
+
+/* Standard mobile */
+@media (max-width: 480px) {
+    :root {
+        --page-gutter: 18px;
+    }
+
+    .site-header {
+        gap: 9px;
+    }
+
+    .brand {
+        font-size: 15px;
+    }
+
+    .header-button {
+        padding: 10px 11px;
+        font-size: 8px;
+    }
+
+    .menu-toggle {
+        font-size: 23px;
+    }
+
+    .hero {
+        padding-top: 42px;
+        gap: 20px;
+    }
+
+    .eyebrow {
+        font-size: 8px;
+        letter-spacing: 1px;
+    }
+
+    .hero h1 {
+        font-size: clamp(37px, 10.5vw, 49px);
+        letter-spacing: -2.2px;
+        overflow-wrap: anywhere;
+    }
+
+    .hero-description {
+        font-size: 12px;
+    }
+
+    .hero-actions {
+        align-items: stretch;
+        flex-wrap: wrap;
+    }
+
+    .button {
+        min-height: 42px;
+    }
+
+    .hero-visual {
+        height: clamp(245px, 72vw, 330px);
+    }
+
+    .portrait-stamp {
+        padding: 9px 11px;
+        font-size: 6px;
+    }
+
+    .portrait-stamp strong {
+        font-size: 7px;
+    }
+
+    .focus-section,
+    .work-section,
+    .projects-section,
+    .toolkit-section {
+        padding-top: 48px;
+        padding-bottom: 48px;
+    }
+
+    .focus-card {
+        min-height: 175px;
+    }
+
+    .project-art {
+        height: 155px;
+    }
+
+    .mock-window,
+    .chart-window {
+        width: 78%;
+    }
+
+    .project-info {
+        gap: 8px;
+    }
+
+    .project-info h3 {
+        font-size: 16px;
+    }
+
+    .tags {
+        gap: 6px;
+    }
+
+    .tags span {
+        font-size: 7px;
+    }
+
+    .tool-groups {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .stats-block {
+        gap: 5px;
+    }
+
+    .stat strong {
+        font-size: 19px;
+    }
+
+    .stat span {
+        font-size: 8px;
+    }
+
+    .contact-copy h2 {
+        font-size: 32px;
+    }
+}
+
+/* Very small phones */
+@media (max-width: 360px) {
+    :root {
+        --page-gutter: 15px;
+    }
+
+    .header-button {
+        display: none;
+    }
+
+    .hero h1 {
+        font-size: 36px;
+        letter-spacing: -1.8px;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .button {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .hero-footnote {
+        flex-direction: column;
+    }
+
+    .hero-visual {
+        height: 235px;
+    }
+
+    .portrait-stamp {
+        transform: scale(.88);
+        transform-origin: bottom right;
+    }
+
+    .stats-block {
+        grid-template-columns: 1fr;
+    }
+
+    .stat {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+/* Short landscape screens: avoid forcing a tall hero. */
+@media (max-height: 520px) and (min-width: 701px) {
+    .hero {
+        min-height: 540px;
+        padding-top: 35px;
+        padding-bottom: 65px;
+    }
+
+    .hero-visual {
+        height: 340px;
+    }
+
+    .hero h1 {
+        font-size: clamp(42px, 5vw, 68px);
+    }
+}
+
+/* Touch devices: remove hover-only lift that can stick after tapping. */
+@media (hover: none) and (pointer: coarse) {
+
+    .focus-card:hover,
+    .project-card:hover,
+    .projects-grid .project-card:hover,
+    .toolkit-card:hover,
+    .button:hover,
+    .header-button:hover {
+        transform: none;
+        box-shadow: none;
+    }
+}
+
+/* Respect operating-system motion preferences. */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .reveal-on-scroll {
+        opacity: 1 !important;
+        transform: none !important;
     }
 }
