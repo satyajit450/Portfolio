@@ -3731,3 +3731,165 @@ canvas {
         animation: none !important;
     }
 }
+
+/* ======================================================================
+   FOCUS CARDS — RESPONSIVE SKILL CHIPS + FINISHING PASS
+   Targets the actual Focus.jsx structure: .focus-card > .focus-tags > span
+   Appended intentionally so these rules take precedence over older styles.
+====================================================================== */
+
+.focus-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+    gap: clamp(14px, 1.6vw, 22px);
+}
+
+.focus-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+    padding: clamp(20px, 2.2vw, 30px);
+    overflow: hidden;
+}
+
+.focus-card h3 {
+    width: 100%;
+    margin: 18px 0 10px;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+}
+
+.focus-card p {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    line-height: 1.75;
+    overflow-wrap: anywhere;
+}
+
+/* Skill labels become individual chips instead of joined plain text. */
+.focus-tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 9px 10px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.focus-tags>span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    max-width: 100%;
+    min-height: 38px;
+    padding: 8px 12px;
+    border: 1px solid rgba(255, 98, 98, .28);
+    border-radius: 7px;
+    background: rgba(255, 98, 98, .075);
+    color: #ff9999;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    line-height: 1.35;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-shadow: 0 0 10px rgba(255, 85, 100, .2);
+    box-shadow: inset 0 1px rgba(255, 255, 255, .025), 0 0 12px rgba(255, 55, 75, .035);
+    transition: color .25s ease, background .25s ease, border-color .25s ease,
+        box-shadow .25s ease, transform .25s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .focus-tags>span:hover {
+        color: #fff;
+        background: rgba(255, 65, 85, .17);
+        border-color: rgba(255, 98, 110, .72);
+        box-shadow: 0 0 10px rgba(255, 65, 85, .2),
+            0 0 22px rgba(255, 65, 85, .1);
+        transform: translateY(-2px);
+    }
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+    .focus-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .focus-card:last-child {
+        grid-column: 1 / -1;
+    }
+}
+
+/* Phones */
+@media (max-width: 700px) {
+    .focus-section {
+        padding-top: 52px;
+        padding-bottom: 52px;
+    }
+
+    .focus-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 15px;
+    }
+
+    .focus-card,
+    .focus-card:last-child {
+        grid-column: auto;
+        min-height: 0;
+        height: auto;
+        padding: 22px 20px;
+    }
+
+    .focus-card h3 {
+        margin-top: 15px;
+        font-size: clamp(17px, 4.5vw, 21px);
+    }
+
+    .focus-card p {
+        font-size: 13px;
+        line-height: 1.75;
+    }
+
+    .focus-tags {
+        gap: 9px 8px;
+        margin-top: 17px;
+    }
+
+    .focus-tags>span {
+        min-height: 36px;
+        padding: 8px 10px;
+        font-size: 10px;
+    }
+}
+
+/* Narrow phones */
+@media (max-width: 380px) {
+
+    .focus-card,
+    .focus-card:last-child {
+        padding: 19px 16px;
+    }
+
+    .focus-tags {
+        gap: 8px 7px;
+    }
+
+    .focus-tags>span {
+        min-height: 34px;
+        padding: 7px 9px;
+        font-size: 9px;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .focus-tags>span {
+        transition: none !important;
+    }
+}
